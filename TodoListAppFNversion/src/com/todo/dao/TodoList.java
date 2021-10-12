@@ -159,6 +159,7 @@ public class TodoList {
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				int id = rs.getInt("id");
+				int is_completed = rs.getInt("is_completed");
 				String category = rs.getString("category");
 				String title = rs.getString("title");
 				String description = rs.getString("memo");
@@ -167,6 +168,7 @@ public class TodoList {
 				TodoItem t = new TodoItem(title, description, category, due_date);
 				t.setId(id);
 				t.setCurrent_date(current_date);
+				t.setIs_completed(is_completed);
 				list.add(t);
 			}
 			pstmt.close();
@@ -187,6 +189,7 @@ public class TodoList {
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				int id = rs.getInt("id");
+				int is_completed = rs.getInt("is_completed");
 				String category = rs.getString("category");
 				String title = rs.getString("title");
 				String description = rs.getString("memo");
@@ -195,6 +198,7 @@ public class TodoList {
 				TodoItem t = new TodoItem(title, description, category, due_date);
 				t.setId(id);
 				t.setCurrent_date(current_date);
+				t.setIs_completed(is_completed);
 				list.add(t);
 			}
 			stmt.close();

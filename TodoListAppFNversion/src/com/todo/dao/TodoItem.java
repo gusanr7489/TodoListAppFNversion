@@ -90,9 +90,9 @@ public class TodoItem {
 	@Override
 	public String toString() {
 		if(is_completed==0)
-			return id + " [" + category + "] <" + title + "> " + desc + " - " + due_date + " - " + current_date;
+			return id + " [" + category + "] <" + title + "> " + desc + " - " + due_date + " (등록일자: " + current_date + ")";
 		else if(is_completed==1)
-			return id + " [" + category + "] <" + title + ">[V] " + desc + " - " + due_date + " - " + current_date;
+			return id + " [" + category + "] <" + title + ">[V] " +desc + " - " + due_date + " (등록일자: " + current_date + ")";
 		else 
 			return null;
 	}

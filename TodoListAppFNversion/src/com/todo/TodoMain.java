@@ -35,8 +35,8 @@ public class TodoMain {
 				break;
 			
 			case "comp":
-				int index = sc.nextInt();
-				TodoUtil.completeItem(l, index);
+				String indexs = sc.nextLine().trim();
+				TodoUtil.completeItem(l, indexs);
 				break;
 				
 			case "ls":
@@ -79,6 +79,10 @@ public class TodoMain {
 
 			case "ls_comp":
 				TodoUtil.listAll(l, 1);
+				break;
+				
+			case "ls_comp_desc":
+				TodoUtil.listAll(l, 0);
 				break;
 				
 			case "exit":

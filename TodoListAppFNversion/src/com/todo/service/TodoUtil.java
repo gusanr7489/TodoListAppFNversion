@@ -9,13 +9,20 @@ public class TodoUtil {
 	public static void createItem(TodoList list) {
 		
 		String title, desc, category, due_date;
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		//카테고리, 제목, 내용, 마감일 입력 받음
 		System.out.print("<항목 추가>\n"
-				+ "카테고리 -> ");
+				+ "카테고리(취소:0) -> ");
 		
 		category = sc.next();
 		sc.nextLine();
+		
+		//캔슬
+		if(category.contains("0")) {
+			System.out.println("취소되었습니다.");
+			return;
+		}
 		
 		System.out.print("제목 -> ");
 		title = sc.next().trim();	
@@ -40,35 +47,55 @@ public class TodoUtil {
 
 	public static void deleteItem(TodoList l) {
 		
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.print("\n"
 				+ "<항목 삭제>\n"
-				+ "삭제할 항목의 번호를 입력하세요 -> ");
-		int index = sc.nextInt();
+				+ "삭제할 항목의 번호를 입력하세요(취소:0) -> ");
+		String indexs = sc.nextLine().trim();
 		
-/*		if(target==null) {
-			System.out.println("항목을 찾을 수가 없습니다.");
+		//캔슬
+		if(indexs.contains("0"))
 			return;
-		}*/
+		
+		indexs = indexs.replace(" ", "");
+		StringTokenizer st = new StringTokenizer(indexs, ",");
+		int index=0;
+		String notice="";
+		while(st.hasMoreTokens()) {
+			index = Integer.parseInt(st.nextToken());
+			if(l.deleteItem(index)>0) {
+				notice = notice + index + "번 ";
+			} else {
+				System.out.println("항목을 찾을 수가 없습니다.");
+				return;
+			}	
+		}
 		
 //		System.out.println(index + ". " + target.toString());
 //		System.out.print("정말로 삭제하시겠습니까? (y/n) -> ");
 //		String do_delete = sc.next();
 		
-		if(l.deleteItem(index)>0) {
-			System.out.println("삭제되었습니다.");
-		}
+		System.out.println(notice + "항목이 정상적으로 삭제되었습니다.");
+		
 	}
 
 
 	public static void updateItem(TodoList l) {
 		
+		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.print("<항목 수정>\n"
-				+ "수정할 항목의 번호를 입력하세요 -> ");
+				+ "수정할 항목의 번호를 입력하세요(취소: 0) -> ");
 		int index = sc.nextInt();
+		
+		//캔슬
+		if(index==0) {
+			System.out.println("취소되었습니다.");
+			return;
+		}
 		
 		System.out.print("새 카테고리? -> ");
 		String new_category = sc.next().trim();
@@ -136,7 +163,7 @@ public class TodoUtil {
 				count++;
 			}
 		}
-		System.out.println("총 " + count +"개의 항목이 완료되었습니다.");
+		System.out.println("총 " + count +"개의 항목이 출력되었습니다.");
 	}
 	
 	public static void listAll(TodoList l, String orderBy, int ordering) {
@@ -146,9 +173,18 @@ public class TodoUtil {
 		}
 	}
 	
-	public static void completeItem(TodoList l, int index) {
-		if(l.setCompleted(index)>0) 
-			System.out.println("완료 설정되었습니다.");
+	public static void completeItem(TodoList l, String indexs) {
+		indexs = indexs.replace(" ", "");
+		StringTokenizer st = new StringTokenizer(indexs, ",");
+		while(st.hasMoreTokens()) {
+			int index=0;
+			index = Integer.parseInt(st.nextToken());
+			if(l.setCompleted(index)<0) { 
+				System.out.println("Error 발생!");
+				return;
+			}
+		}
+		System.out.println("완료 설정되었습니다.");
 	}
 	
 }
