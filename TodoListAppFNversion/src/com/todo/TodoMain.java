@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.todo.dao.TodoList;
 import com.todo.menu.Menu;
+import com.todo.service.DbConnect;
 import com.todo.service.TodoUtil;
 
 public class TodoMain {
@@ -85,6 +86,14 @@ public class TodoMain {
 				TodoUtil.listAll(l, 0);
 				break;
 				
+			case "insert_data":
+				TodoUtil.insertJsonData(l);
+				break;
+				
+			case "extract_data":
+				TodoUtil.extractJsonData(l);
+				break;
+				
 			case "exit":
 				quit = true;
 				break;
@@ -100,6 +109,7 @@ public class TodoMain {
 			
 		} while (!quit);
 		sc.close();
+		DbConnect.closeConnection();
 		System.out.println("프로그램 종료됨");
 	}
 	

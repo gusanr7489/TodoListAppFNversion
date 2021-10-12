@@ -1,6 +1,8 @@
+<개발 일지>
 1. multi-item
 	complete : stringtokenizer사용해서 여러 항목을 입력한 경우 기존 기능 반복 실행해 만듬
 	delete : 위와 동일
 2. 데이터 45개까지 추가
 3. 완료하지 못한 항목들 출력 기능
-	
+4. GSON 클래스 구현 완료
+5. GSON 클래스 기능 구현 완료

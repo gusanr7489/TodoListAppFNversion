@@ -10,7 +10,7 @@ public class TodoItem {
     private String category;
     private String due_date;
     private int is_completed;
-    private int id;
+    private transient int id;
 
 
 	public TodoItem(String title, String desc, String category, String due_date){

@@ -19,7 +19,7 @@ public class TodoUtil {
 		sc.nextLine();
 		
 		//캔슬
-		if(category.contains("0")) {
+		if(category.equals("0")) {
 			System.out.println("취소되었습니다.");
 			return;
 		}
@@ -53,14 +53,14 @@ public class TodoUtil {
 		System.out.print("\n"
 				+ "<항목 삭제>\n"
 				+ "삭제할 항목의 번호를 입력하세요(취소:0) -> ");
-		String indexs = sc.nextLine().trim();
+		String indexes = sc.nextLine().trim();
 		
 		//캔슬
-		if(indexs.contains("0"))
+		if(indexes.contains("0"))
 			return;
 		
-		indexs = indexs.replace(" ", "");
-		StringTokenizer st = new StringTokenizer(indexs, ",");
+		indexes = indexes.replace(" ", "");
+		StringTokenizer st = new StringTokenizer(indexes, ",");
 		int index=0;
 		String notice="";
 		while(st.hasMoreTokens()) {
@@ -173,9 +173,9 @@ public class TodoUtil {
 		}
 	}
 	
-	public static void completeItem(TodoList l, String indexs) {
-		indexs = indexs.replace(" ", "");
-		StringTokenizer st = new StringTokenizer(indexs, ",");
+	public static void completeItem(TodoList l, String indexes) {
+		indexes = indexes.replace(" ", "");
+		StringTokenizer st = new StringTokenizer(indexes, ",");
 		while(st.hasMoreTokens()) {
 			int index=0;
 			index = Integer.parseInt(st.nextToken());
@@ -187,4 +187,42 @@ public class TodoUtil {
 		System.out.println("완료 설정되었습니다.");
 	}
 	
+	public static void insertJsonData(TodoList list) {
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("읽어드릴 파일 이름을 입력하세요(취소:0) -> ");
+		String fileName = sc.nextLine();
+		if(fileName.equals("0"))
+			return;
+		
+		ArrayList<TodoItem> l = GsonConnect.readJsonFile(fileName);
+		int count=0;
+		for(TodoItem t: l) {
+			if(list.addItem(t)>0) {
+				count++;
+				continue;
+			}
+		}
+		System.out.println("총 " + count + "개의 항목이 추가되었습니다.");
+	}
+	
+	public static void extractJsonData(TodoList list) {
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("데이터로 추출할 항목을 선택하세요(취소:0) -> ");
+		String indexes = sc.nextLine().trim();
+		if(indexes.equals("0"))
+			return;
+		
+		indexes = indexes.replace(" ", "");
+		StringTokenizer st = new StringTokenizer(indexes, ",");
+		ArrayList<TodoItem> l = new ArrayList<TodoItem>();
+		while(st.hasMoreTokens()) {
+			TodoItem t = list.getItem(Integer.parseInt(st.nextToken()));
+			l.add(t);
+		}
+		GsonConnect.writeJsonFile(l);
+	}
 }

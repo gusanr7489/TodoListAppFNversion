@@ -10,6 +10,7 @@ import java.util.*;
 import com.todo.service.DbConnect;
 
 public class TodoList {
+	ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 	Connection conn;
 	
 	public TodoList() {
@@ -73,7 +74,6 @@ public class TodoList {
 	}
 
 	public ArrayList<TodoItem> getList() {
-		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		Statement stmt;
 		try {
 			stmt = conn.createStatement();
@@ -228,7 +228,7 @@ public class TodoList {
 //		return list.indexOf(t);
 //	}
 	
-/*	public TodoItem getItem(int index) {
+	public TodoItem getItem(int index) {
 		PreparedStatement pstmt;
 		try {
 			String sql = "SELECT * FROM list WHERE id = ?";
@@ -252,7 +252,7 @@ public class TodoList {
 			e.printStackTrace();
 		}
 		return null;
-	}*/
+	}
 
 	public Boolean isDuplicate(String title) {
 		PreparedStatement pstmt;
