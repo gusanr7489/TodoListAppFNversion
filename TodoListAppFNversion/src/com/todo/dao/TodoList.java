@@ -77,11 +77,11 @@ public class TodoList {
 	}
 
 	public ArrayList<TodoItem> getList() {
+		String sql = "SELECT * FROM list";
 		Statement stmt;
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		try {
 			stmt = conn.createStatement();
-			String sql = "SELECT * FROM list";
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				int id = rs.getInt("id");
@@ -106,12 +106,12 @@ public class TodoList {
 		return new ArrayList<TodoItem>(list);
 	}
 
-	public ArrayList<TodoItem> getList(String keyword) {
+	public ArrayList<TodoItem> findList(String keyword) {
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		String sql = "SELECT * FROM list WHERE title like ? or memo like ?";
 		PreparedStatement pstmt;
 		keyword = "%" + keyword + "%";
 		try {
-			String sql = "SELECT * FROM list WHERE title like ? or memo like ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, keyword);
 			pstmt.setString(2, keyword);
@@ -139,29 +139,30 @@ public class TodoList {
 		return new ArrayList<TodoItem>(list);
 	}
 	
-	public ArrayList<String> getCategories() {
-		ArrayList<String> list = new ArrayList<String>() ;
+	public ArrayList<String> getColumn(String target) {
+		ArrayList<String> list = new ArrayList<String>();
+		String sql = "SELECT DISTINCT "+ target + " FROM list";
 		Statement stmt;
 		try {
 			stmt = conn.createStatement();
-			String sql = "SELECT DISTINCT category FROM list";
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
-				String category = rs.getString("category");
-				list.add(category);
+				String column = rs.getString(target);
+				list.add(column);
 			}
 			stmt.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		Collections.sort(list);
 		return list;
 	}
 	
-	public ArrayList<TodoItem> getListCategory(String keyword) {
-		ArrayList<TodoItem> list = new ArrayList<TodoItem>() ;
+	public ArrayList<TodoItem> getList(String column, String keyword) {
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		String sql = "SELECT * FROM list WHERE " + column + " = ?";
 		PreparedStatement pstmt;
 		try {
-			String sql = "SELECT * FROM list WHERE category = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, keyword);
 			ResultSet rs = pstmt.executeQuery();

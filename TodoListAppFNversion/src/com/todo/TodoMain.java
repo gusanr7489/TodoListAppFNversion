@@ -64,6 +64,11 @@ public class TodoMain {
 				TodoUtil.listAll(l, "title", 0);
 				break;
 				
+			case "ls_day":
+				System.out.println("날짜별로 출력했습니다.");
+				TodoUtil.listDay(l);
+				break;
+				
 			case "ls_date":
 				System.out.println("날짜순으로 정렬했습니다.");
 				TodoUtil.listAll(l, "due_date", 1);
@@ -75,7 +80,7 @@ public class TodoMain {
 				break;	
 				
 			case "ls_cate":
-				TodoUtil.listCategory(l);
+				TodoUtil.list(l, "category");
 				break;
 
 			case "ls_comp":

@@ -14,8 +14,9 @@ public class Menu {
         System.out.println("  'find_cate A' -> A 포함한 카테고리 찾기");
         System.out.println("  'ls_name_asc' -> 제목순 정렬");
         System.out.println("  'ls_name_desc' -> 이름순 정렬");
-        System.out.println("  'ls_date' -> 날짜별 정렬");
-        System.out.println("  'ls_date_desc' -> 날짜별 역정렬");
+        System.out.println("  'ls_day' -> 날짜별 정렬");
+        System.out.println("  'ls_date' -> 날짜순 정렬");
+        System.out.println("  'ls_date_desc' -> 날짜순 역정렬");
         System.out.println("  'ls_cate' -> 카테고리 정렬");
         System.out.println("  'ls_priority' -> 우선순위 정렬");
         System.out.println("  'ls_comp' -> 완료된 항목 정렬");

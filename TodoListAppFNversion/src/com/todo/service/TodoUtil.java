@@ -42,6 +42,7 @@ public class TodoUtil {
 		
 		System.out.print("중요도(별1~5) -> ");
 		int priority = sc.nextInt();
+		sc.nextLine();
 		
 		System.out.print("예상소요시간 -> ");
 		String estimated_time = sc.nextLine();
@@ -123,6 +124,7 @@ public class TodoUtil {
 		
 		System.out.print("새 중요도(별1~5)? -> ");
 		int new_priority = sc.nextInt();
+		sc.nextLine();
 		
 		System.out.print("새 예상소요시간 -> ");
 		String new_estimated_time = sc.nextLine();
@@ -135,7 +137,7 @@ public class TodoUtil {
 	
 	public static void find(String target, TodoList l) {
 		int count=0;
-		for(TodoItem myitem : l.getList(target)) {
+		for(TodoItem myitem : l.findList(target)) {
 			System.out.println(myitem.toString());
 			count++;
 		}
@@ -144,20 +146,29 @@ public class TodoUtil {
 	
 	public static void findCategory(String target, TodoList l) {
 		int count=0;
-		for(TodoItem item : l.getListCategory(target)) {
+		for(TodoItem item : l.getList("category", target)) {
 			System.out.println(item.toString());
 			count++;
 		}
 		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
 	}
 	
-	public static void listCategory(TodoList l) {
+	public static void listDay(TodoList l) {
+		for(String item: l.getColumn("due_date")) {
+			System.out.println("\n<" + item + ">");
+			for(TodoItem t: l.getList("due_date", item)) {
+				System.out.println(t.toString());
+			}
+		}
+	}
+	
+	public static void list(TodoList l, String target) {
 		int count=0;
-		for(String item: l.getCategories()) {
+		for(String item: l.getColumn(target)) {
 			System.out.print(item + " ");
 			count++;
 		}
-		System.out.println("\n" + "총 " + count + "개의 카테고리가 등록되어 있습니다.");
+		System.out.println("\n" + "총 " + count + "개가 등록되어 있습니다.");
 	}
 
 	public static void listAll(TodoList l) {
