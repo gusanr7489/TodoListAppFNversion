@@ -79,11 +79,6 @@ public class TodoUtil {
 				return;
 			}	
 		}
-		
-//		System.out.println(index + ". " + target.toString());
-//		System.out.print("정말로 삭제하시겠습니까? (y/n) -> ");
-//		String do_delete = sc.next();
-		
 		System.out.println(notice + "항목이 정상적으로 삭제되었습니다.");
 		
 	}

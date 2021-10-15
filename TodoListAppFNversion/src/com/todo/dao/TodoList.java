@@ -105,7 +105,57 @@ public class TodoList {
 		}
 		return new ArrayList<TodoItem>(list);
 	}
-
+	
+	public ArrayList<TodoItem> getList(String column, String keyword) {
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
+		String sql = "SELECT * FROM list WHERE " + column + " = ?";
+		PreparedStatement pstmt;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				int is_completed = rs.getInt("is_completed");
+				String category = rs.getString("category");
+				String title = rs.getString("title");
+				String description = rs.getString("memo");
+				String due_date = rs.getString("due_date");
+				String current_date = rs.getString("current_date");
+				int priority = rs.getInt("priority");
+				String estimated_time = rs.getString("estimated_time");
+				TodoItem t = new TodoItem(title, description, category, due_date,priority,estimated_time);
+				t.setId(id);
+				t.setCurrent_date(current_date);
+				t.setIs_completed(is_completed);
+				list.add(t);
+			}
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	public ArrayList<String> getColumn(String target) {
+		ArrayList<String> list = new ArrayList<String>();
+		String sql = "SELECT DISTINCT "+ target + " FROM list";
+		Statement stmt;
+		try {
+			stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				String column = rs.getString(target);
+				list.add(column);
+			}
+			stmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		Collections.sort(list);
+		return list;
+	}
+	
 	public ArrayList<TodoItem> findList(String keyword) {
 		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		String sql = "SELECT * FROM list WHERE title like ? or memo like ?";
@@ -137,56 +187,6 @@ public class TodoList {
 			e.printStackTrace();
 		}
 		return new ArrayList<TodoItem>(list);
-	}
-	
-	public ArrayList<String> getColumn(String target) {
-		ArrayList<String> list = new ArrayList<String>();
-		String sql = "SELECT DISTINCT "+ target + " FROM list";
-		Statement stmt;
-		try {
-			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			while(rs.next()) {
-				String column = rs.getString(target);
-				list.add(column);
-			}
-			stmt.close();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		Collections.sort(list);
-		return list;
-	}
-	
-	public ArrayList<TodoItem> getList(String column, String keyword) {
-		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
-		String sql = "SELECT * FROM list WHERE " + column + " = ?";
-		PreparedStatement pstmt;
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, keyword);
-			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
-				int id = rs.getInt("id");
-				int is_completed = rs.getInt("is_completed");
-				String category = rs.getString("category");
-				String title = rs.getString("title");
-				String description = rs.getString("memo");
-				String due_date = rs.getString("due_date");
-				String current_date = rs.getString("current_date");
-				int priority = rs.getInt("priority");
-				String estimated_time = rs.getString("estimated_time");
-				TodoItem t = new TodoItem(title, description, category, due_date,priority,estimated_time);
-				t.setId(id);
-				t.setCurrent_date(current_date);
-				t.setIs_completed(is_completed);
-				list.add(t);
-			}
-			pstmt.close();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
 	}
 	
 	public ArrayList<TodoItem> getOrderedList(String orderBy, int ordering) {
@@ -236,10 +236,6 @@ public class TodoList {
 		}
 		return count;
 	}
-	
-//	public int indexOf(TodoItem t) {
-//		return list.indexOf(t);
-//	}
 	
 	public TodoItem getItem(int index) {
 		PreparedStatement pstmt;
