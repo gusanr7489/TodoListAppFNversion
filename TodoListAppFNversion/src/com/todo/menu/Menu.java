@@ -17,8 +17,9 @@ public class Menu {
         System.out.println("  'ls_date' -> 날짜별 정렬");
         System.out.println("  'ls_date_desc' -> 날짜별 역정렬");
         System.out.println("  'ls_cate' -> 카테고리 정렬");
-        System.out.println("  'ls_comp' -> 완료된 항목 출력");
-        System.out.println("  'ls_comp_desc' -> 해야할 항목 출력");
+        System.out.println("  'ls_priority' -> 우선순위 정렬");
+        System.out.println("  'ls_comp' -> 완료된 항목 정렬");
+        System.out.println("  'ls_comp_desc' -> 해야할 항목 정렬");
         System.out.println("  'insert_data' -> JSON 데이터 삽입");
         System.out.println("  'extract_data' -> 데이터 추출");
         System.out.println("  'exit' -> 프로그램 종료");

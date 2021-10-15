@@ -79,11 +79,15 @@ public class TodoMain {
 				break;
 
 			case "ls_comp":
-				TodoUtil.listAll(l, 1);
+				TodoUtil.listIsCompleted(l, 1);
 				break;
 				
 			case "ls_comp_desc":
-				TodoUtil.listAll(l, 0);
+				TodoUtil.listIsCompleted(l, 0);
+				break;
+				
+			case "ls_priority":
+				TodoUtil.listPriority(l, "priority", 0);
 				break;
 				
 			case "insert_data":

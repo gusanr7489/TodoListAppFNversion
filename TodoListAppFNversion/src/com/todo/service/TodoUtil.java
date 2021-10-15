@@ -40,7 +40,13 @@ public class TodoUtil {
 		System.out.print("마감일 -> ");
 		due_date = sc.next().trim();
 		
-		TodoItem t = new TodoItem(title, desc, category, due_date);
+		System.out.print("중요도(별1~5) -> ");
+		int priority = sc.nextInt();
+		
+		System.out.print("예상소요시간 -> ");
+		String estimated_time = sc.nextLine();
+		
+		TodoItem t = new TodoItem(title, desc, category, due_date, priority,estimated_time);
 		if(list.addItem(t)>0)
 			System.out.println("추가되었습니다.");
 	}
@@ -115,7 +121,13 @@ public class TodoUtil {
 		System.out.print("새 마감일? -> ");
 		String new_due_date = sc.nextLine().trim();
 		
-		TodoItem t = new TodoItem(new_title, new_description, new_category, new_due_date);
+		System.out.print("새 중요도(별1~5)? -> ");
+		int new_priority = sc.nextInt();
+		
+		System.out.print("새 예상소요시간 -> ");
+		String new_estimated_time = sc.nextLine();
+		
+		TodoItem t = new TodoItem(new_title, new_description, new_category, new_due_date, new_priority,new_estimated_time);
 		t.setId(index);
 		if(l.updateItem(t)>0)
 			System.out.println("항목이 수정되었습니다.");
@@ -155,9 +167,9 @@ public class TodoUtil {
 		}
 	}
 	
-	public static void listAll(TodoList l, int order) {
+	public static void listIsCompleted(TodoList l, int order) {
 		int count=0;
-		for (TodoItem item : l.getList()) {
+		for (TodoItem item : l.getOrderedList("due_date", 1)) {
 			if(item.getIs_completed()==order) {
 				System.out.println(item.toString());
 				count++;
@@ -171,6 +183,17 @@ public class TodoUtil {
 		for (TodoItem item : l.getOrderedList(orderBy, ordering)) {
 			System.out.println(item.toString());
 		}
+	}
+	
+	public static void listPriority(TodoList l, String orderBy, int ordering) {
+		int count=0;
+		for (TodoItem item : l.getOrderedList(orderBy, ordering)) {
+			if(item.getIs_completed()==0) {
+				System.out.println(item.toString()); 
+				count++;
+			}
+		}
+		System.out.println("총 " + count +"개의 항목이 출력되었습니다.");
 	}
 	
 	public static void completeItem(TodoList l, String indexes) {

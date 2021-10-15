@@ -10,7 +10,6 @@ import java.util.*;
 import com.todo.service.DbConnect;
 
 public class TodoList {
-	ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 	Connection conn;
 	
 	public TodoList() {
@@ -18,8 +17,8 @@ public class TodoList {
 	}
 
 	public int addItem(TodoItem t) {
-		String sql = "insert into list (title, memo, category, current_date, due_date)" 
-				+ " values (?,?,?,?,?);" ;
+		String sql = "insert into list (title, memo, category, current_date, due_date, priority, estimated_time)" 
+				+ " values (?,?,?,?,?,?,?);" ;
 		PreparedStatement pstmt;
 		int count =0;
 		try {
@@ -29,6 +28,8 @@ public class TodoList {
 			pstmt.setString(3, t.getCategory());
 			pstmt.setString(4, t.getCurrent_date());
 			pstmt.setString(5, t.getDue_date());
+			pstmt.setInt(6, t.getPriority());
+			pstmt.setString(7, t.getEstimated_time());
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		}catch (SQLException e) {
@@ -53,7 +54,7 @@ public class TodoList {
 	}
 
 	public int updateItem(TodoItem t) {
-		String sql = "update list set title =?, memo=?, category=?, current_date=?, due_date=?"
+		String sql = "update list set title =?, memo=?, category=?, current_date=?, due_date=?, priority=?, estimated_time=?"
 				+ " where id = ?;";
 		PreparedStatement pstmt;
 		int count=0;
@@ -64,7 +65,9 @@ public class TodoList {
 			pstmt.setString(3, t.getCategory());
 			pstmt.setString(4, t.getCurrent_date());
 			pstmt.setString(5, t.getDue_date());
-			pstmt.setInt(6, t.getId());
+			pstmt.setInt(6, t.getPriority());
+			pstmt.setString(7, t.getEstimated_time());
+			pstmt.setInt(8, t.getId());
 			count = pstmt.executeUpdate();
 			pstmt.close();
 		}catch(SQLException e) {
@@ -75,6 +78,7 @@ public class TodoList {
 
 	public ArrayList<TodoItem> getList() {
 		Statement stmt;
+		ArrayList<TodoItem> list = new ArrayList<TodoItem>();
 		try {
 			stmt = conn.createStatement();
 			String sql = "SELECT * FROM list";
@@ -87,7 +91,9 @@ public class TodoList {
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
 				int is_completed = rs.getInt("is_completed");
-				TodoItem t = new TodoItem(title, description, category, due_date);
+				int priority = rs.getInt("priority");
+				String estimated_time = rs.getString("estimated_time");
+				TodoItem t = new TodoItem(title, description, category, due_date,priority,estimated_time);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				t.setIs_completed(is_completed);
@@ -118,7 +124,9 @@ public class TodoList {
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
 				int is_completed = rs.getInt("is_completed");
-				TodoItem t = new TodoItem(title, description, category, due_date);
+				int priority = rs.getInt("priority");
+				String estimated_time = rs.getString("estimated_time");
+				TodoItem t = new TodoItem(title, description, category, due_date,priority,estimated_time);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				t.setIs_completed(is_completed);
@@ -165,7 +173,9 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(title, description, category, due_date);
+				int priority = rs.getInt("priority");
+				String estimated_time = rs.getString("estimated_time");
+				TodoItem t = new TodoItem(title, description, category, due_date,priority,estimated_time);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				t.setIs_completed(is_completed);
@@ -195,7 +205,9 @@ public class TodoList {
 				String description = rs.getString("memo");
 				String due_date = rs.getString("due_date");
 				String current_date = rs.getString("current_date");
-				TodoItem t = new TodoItem(title, description, category, due_date);
+				int priority = rs.getInt("priority");
+				String estimated_time = rs.getString("estimated_time");
+				TodoItem t = new TodoItem(title, description, category, due_date,priority,estimated_time);
 				t.setId(id);
 				t.setCurrent_date(current_date);
 				t.setIs_completed(is_completed);
@@ -242,7 +254,9 @@ public class TodoList {
 			String description = rs.getString("memo");
 			String due_date = rs.getString("due_date");
 			String current_date = rs.getString("current_date");
-			TodoItem t = new TodoItem(title, description, category, due_date);
+			int priority = rs.getInt("priority");
+			String estimated_time = rs.getString("estimated_time");
+			TodoItem t = new TodoItem(title, description, category, due_date,priority,estimated_time);
 			t.setId(id);
 			t.setCurrent_date(current_date);
 			
